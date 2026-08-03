@@ -231,6 +231,10 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
   }
+  .hero__logo {
+  width: min(90vw, 900px);   /* how big the logo appears */
+  height: auto;              /* keeps the proportions correct */
+  }
 
   /* Scroll cue at the bottom of the hero */
   .hero__scroll {
@@ -544,7 +548,9 @@
 
     <div class="hero__content">
       <!-- ✎ EDIT · BAND NAME (your big wordmark / logo) -->
-      <h1 class="hero__title">Ceramic Doves</h1>
+      <h1 class="hero__title">
+        <img src="logo/cd_logo.png" alt="Ceramic Doves" class="hero__logo" />
+      </h1>
       <p class="hero__tagline">Young Hearts Rock Hard</p>
     </div>
 
