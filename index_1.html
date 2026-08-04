@@ -4,7 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Ceramic Doves — Official Site</title>
-<link rel="icon" type="image/png" href="logo/dove_transparent.png" />
 
 <!--
   ============================================================
@@ -39,7 +38,7 @@
     --white:      #f4f2ee;   /* warm off-white for text & logo   */
     --muted:      #8a8a90;   /* secondary / caption text         */
     --line:       rgba(255,255,255,0.10); /* hairline dividers    */
-    --accent:     #c1155a;   /* ember red — the one loud note */
+    --accent:     #b718e5;   /* ember red — the one loud note */
 
     /* Type */
     --font-display: "Anton", sans-serif;    /* heavy condensed — big impact  */
@@ -132,8 +131,6 @@
     text-transform: uppercase;
     font-size: 1.15rem;
   }
-  /* when the nav logo is an image, keep it small to fit the bar */
-  .nav__logo img { height: 1.9rem; width: auto; display: block; }
 
   .nav__links {
     display: flex;
@@ -462,52 +459,6 @@
   }
 
   /* ============================================================
-     8b. GALLERY  —  one horizontal row of photos you can swipe
-     ============================================================ */
-  .gallery__track {
-    display: flex;
-    gap: 1rem;
-    /* horizontal scroll — swipe on touch, drag/scroll on desktop */
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;   /* momentum swipe on iOS */
-    padding-bottom: 1rem;                /* room for the scrollbar */
-    /* bleed slightly past the container edges so photos run to the sides */
-    margin-inline: calc(var(--pad-x) * -1);
-    padding-inline: var(--pad-x);
-    scroll-padding-inline: var(--pad-x);
-  }
-  /* each photo tile */
-  .gallery__item {
-    flex: 0 0 auto;
-    width: clamp(16rem, 42vw, 26rem);
-    aspect-ratio: 2 / 2;
-    scroll-snap-align: start;
-    border-radius: 2px;
-    background-color: var(--ink-raised);
-    background-size: cover;
-    background-position: center;
-    border: 1px solid var(--line);
-    box-shadow: 0 20px 45px rgba(0,0,0,0.45);
-  }
-  /* thin custom scrollbar in the accent colour */
-  .gallery__track { scrollbar-width: thin; scrollbar-color: var(--accent) transparent; }
-  .gallery__track::-webkit-scrollbar { height: 6px; }
-  .gallery__track::-webkit-scrollbar-track { background: transparent; }
-  .gallery__track::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
-
-  /* little hint under the row */
-  .gallery__hint {
-    font-family: var(--font-cond);
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 1.25rem;
-  }
-
-  /* ============================================================
      9. FOOTER  —  minimalistic social + mail icons
      ============================================================ */
   .footer {
@@ -516,11 +467,9 @@
     border-top: 1px solid var(--line);
   }
   .footer__logo {
-  width: min(70vw, 380px);   /* how big the logo appears (smaller than the hero) */
+  width: min(90vw, 900px);   /* how big the logo appears */
   height: auto;              /* keeps the proportions correct */
-  margin-inline: auto;       /* keeps it centred in the footer */
   }
-
   .footer__tagline { font-family: var(--font-cond); font-weight: 500; color: var(--muted); font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 0.9rem; }
 
   .socials {
@@ -537,31 +486,6 @@
   .socials svg { width: 1.4rem; height: 1.4rem; display: block; }
 
   .footer__copy { color: var(--muted); font-size: 0.72rem; margin-top: 2.75rem; letter-spacing: 0.05em; }
-
-  /* Booking call-to-action ("Book us") — its own section above the footer */
-  .booking { text-align: center; }
-  .booking .eyebrow { justify-content: center; }
-  .booking__title {
-    font-family: var(--font-display);
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    font-size: clamp(1.8rem, 5vw, 3rem);
-    line-height: 0.95;
-    margin-top: 1rem;
-  }
-  .booking__email {
-    display: inline-block;
-    margin-top: 1.5rem;
-    font-family: var(--font-cond);
-    font-weight: 600;
-    font-size: clamp(1rem, 3vw, 1.4rem);
-    letter-spacing: 0.04em;
-    padding: 0.75rem 1.75rem;
-    border: 1px solid var(--accent);
-    color: var(--white);
-    transition: background 0.2s ease, color 0.2s ease;
-  }
-  .booking__email:hover { background: var(--accent); color: var(--ink); }
 
   /* ============================================================
      10. SCROLL-REVEAL  (elements fade up as they enter the view)
@@ -599,9 +523,7 @@
   <!-- ========== TOP NAV (appears after the hero) ========== -->
   <nav class="nav" id="nav" aria-label="Primary">
     <!-- ✎ EDIT · BAND NAME -->
-    <a class="nav__logo" href="#top">
-      <img src="logo/cd_logo.png" alt="Ceramic Doves" />
-    </a>
+    <a class="nav__logo" href="#top">Ceramic Doves</a>
     <div class="nav__links">
       <a href="#about">About</a>
       <a href="#listen">Listen</a>
@@ -641,8 +563,8 @@
          if you change the text, change BOTH copies to match. -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
-        <span>Concerts this Summer</span><span>New EP — Love Rehab</span><span>Out everywhere</span><span>Ceramic Doves</span><span>Open for Booking</span>
-        <span>Concerts this Summer</span><span>New EP — Love Rehab</span><span>Out everywhere</span><span>Ceramic Doves</span><span>Open for Booking</span>
+        <span>On tour now</span><span>New EP — Love Rehab</span><span>Out everywhere</span><span>Ceramic Doves</span>
+        <span>On tour now</span><span>New EP — Love Rehab</span><span>Out everywhere</span><span>Ceramic Doves</span>
       </div>
     </div>
 
@@ -657,23 +579,22 @@
 
           <!-- ✎ EDIT · ABOUT (your story / history) -->
           <p>
-            The young Swiss rock band Ceramic Doves is making waves. Guitar-driven rock’n’roll with depth,
-            glamour, and a show that hits straight to the heart and the legs. «Young hearts rock hard» – and
-            that’s exactly how they sound: loud, direct, and on a straight path to the world tour.
+            Ceramic Doves began in a rented basement on the edge of the city, where
+            four friends spent winter nights turning insomnia into songs. What
+            started as an experiment in reverb and patience became a sound of
+            its own — spacious, unhurried, and quietly restless.
           </p>
           <p>
-            The band was founded in 2023 and consists of Dana (vocals),
-            Ian Carlson (guitar, vocals), Lisa Gehrig (keyboard, vocals), Gian Curiger (bass), and Ian Margelisch (drums).
-            Soone they released their first EP in 2024. In their current lineup, Ceramic Doves took third place at the Zurich emerging-talent competition Band-it in 2025.
-            That same year, the singles "Painting of My Love" and "Diane" were released, the latter recorded at Powerplay Studios in Maur.
-             Alongside this, the band played further concerts in regional clubs and music bars. Behind the energetic stage show are songs that grapple with themes
-            such as self-discovery, relationships, and coming of age.
+            Since our first EP <em>Love Rehab</em> in 2021, we've toured smoky
+            rooms and open fields alike, always chasing that thin, grey light
+            that arrives just before the sun. This is music for the drive home,
+            the empty platform, the last hour awake.
           </p>
 
           <dl class="about__meta">
             <div>
               <dt>Formed</dt>
-              <dd>2023</dd>
+              <dd>2021</dd>
             </div>
             <div>
               <dt>Based in</dt>
@@ -716,7 +637,7 @@
           <div class="player__main">
             <!-- ✎ EDIT · SONG (track + album name) -->
             <div class="player__track">Love Rehab</div>
-            <div class="player__album">from “Love Rehab EP” · 2026</div>
+            <div class="player__album">from “Love Rehab EP” · 2021</div>
 
             <!-- Waveform bars are generated by JavaScript below -->
             <div class="waveform" id="waveform" role="slider"
@@ -751,23 +672,23 @@
         <div class="shows__list">
 
           <div class="show reveal">
-            <div class="show__date"><div class="day">15</div><div class="mon">Aug</div></div>
+            <div class="show__date"><div class="day">14</div><div class="mon">Sep</div></div>
             <div class="show__where">
-              <div class="city">Zürich</div>
-              <div class="venue">Planet 5</div>
+              <div class="city">Uster</div>
+              <div class="venue">Mississippi Studios</div>
             </div>
-            <div class="show__cta"><a href="https://www.planet5.ch/" aria-label="Website">Website</a></div>
+            <div class="show__cta"><a href="#" aria-label="Tickets for Portland">Tickets</a></div>
           </div>
 
           <div class="show reveal">
-            <div class="show__date"><div class="day">5</div><div class="mon">Sep</div></div>
+            <div class="show__date"><div class="day">21</div><div class="mon">Sep</div></div>
             <div class="show__where">
-              <div class="city">Greifensee</div>
-              <div class="venue">Openair Greifensee</div>
+              <div class="city">Seattle, WA</div>
+              <div class="venue">The Crocodile</div>
             </div>
-            <div class="show__cta"><a href="https://www.openairgreifensee.ch/programm-2026/ceramic-doves" aria-label="Website">Website</a></div>
+            <div class="show__cta"><a href="#" aria-label="Tickets for Seattle">Tickets</a></div>
           </div>
-<!--
+
           <div class="show reveal">
             <div class="show__date"><div class="day">03</div><div class="mon">Oct</div></div>
             <div class="show__where">
@@ -776,64 +697,17 @@
             </div>
             <div class="show__cta is-soldout"><span>Sold out</span></div>
           </div>
--->
+
           <div class="show reveal">
-            <div class="show__date"><div class="day">12</div><div class="mon">Sept</div></div>
+            <div class="show__date"><div class="day">18</div><div class="mon">Oct</div></div>
             <div class="show__where">
-              <div class="city">Zürich</div>
-              <div class="venue">SchwamenAir</div>
+              <div class="city">Los Angeles, CA</div>
+              <div class="venue">The Echo</div>
             </div>
-            <div class="show__cta"><a href="https://schwamenair.ch/" aria-label="Website">Website</a></div>
+            <div class="show__cta"><a href="#" aria-label="Tickets for Los Angeles">Tickets</a></div>
           </div>
 
         </div>
-      </div>
-    </section>
-
-    <!-- ========== GALLERY (horizontal, swipeable) ==========
-         ✎ EDIT · GALLERY
-         Each ".gallery__item" is one photo. Swap the url('...') for your
-         own image, e.g. style="background-image: url('images/live1.jpg')".
-         Add or remove ".gallery__item" blocks freely — the row simply grows
-         wider and you swipe / scroll sideways through them. -->
-    <section id="gallery" class="gallery">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow">Gallery</p>
-          <h2>On the road</h2>
-        </div>
-      </div>
-
-      <!-- full-width scroller (sits outside .container so photos reach the edges) -->
-      <div class="container">
-        <div class="gallery__track reveal">
-          <div class="gallery__item" role="img" aria-label="Band photo 1"
-               style="background-image: url('images/crowd.jpg');"></div>
-          <div class="gallery__item" role="img" aria-label="Band photo 2"
-               style="background-image: url('images/sweat.jpg');"></div>
-          <div class="gallery__item" role="img" aria-label="Band photo 3"
-               style="background-image: url('images/band_u.jpg');"></div>
-          <div class="gallery__item" role="img" aria-label="Band photo 4"
-               style="background-image: url('images/blue_clap.jpg');"></div>
-          <div class="gallery__item" role="img" aria-label="Band photo 5"
-               style="background-image: url('images/bw_ian.jpg');"></div>
-          <div class="gallery__item" role="img" aria-label="Band photo 6"
-               style="background-image: url('images/mist.jpg');"></div>
-          <div class="gallery__item" role="img" aria-label="Band photo 7"
-               style="background-image: url('images/musikfestwoche.jpg');"></div>
-          <div class="gallery__item" role="img" aria-label="Band photo 8"
-               style="background-image: url('images/scream.jpg');"></div>
-        </div>
-        <p class="gallery__hint" aria-hidden="true">← Swipe to see more →</p>
-      </div>
-    </section>
-
-    <!-- ========== BOOK US ==========
-         ✎ EDIT · BOOK US — swap the address in both the href and the text -->
-    <section id="booking" class="booking">
-      <div class="container reveal">
-        <div class="booking__title">Book us</div>
-        <a class="booking__email" href="mailto:ceramicdoves@gmail.com">ceramicdoves@gmail.com</a>
       </div>
     </section>
 
@@ -843,21 +717,21 @@
   <footer class="footer">
     <div class="container">
       <!-- ✎ EDIT · BAND NAME -->
-      <div class="footer__logo">
-        <img src="logo/cd_logo.png" alt="Ceramic Doves" class="footer__logo" />
-      </div>
+      <h1 class="hero__title">
+        <img src="logo/cd_logo.png" alt="Ceramic Doves" class="hero__logo" />
+      </h1>
       <div class="footer__tagline">Young Hearts Rock Hard</div>
 
       <!-- ✎ EDIT · LINKS — swap the href="#" values for your real URLs -->
       <div class="socials">
-        <a href="https://www.instagram.com/ceramicdoves/" aria-label="Instagram">
+        <a href="#" aria-label="Instagram">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="3" y="3" width="18" height="18" rx="5" />
             <circle cx="12" cy="12" r="4" />
             <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
           </svg>
         </a>
-        <a href="https://open.spotify.com/artist/0znhkYLZ7d6otsW91943i2" aria-label="Spotify">
+        <a href="#" aria-label="Spotify">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
             <circle cx="12" cy="12" r="9" />
             <path d="M7.5 9.5c3-.8 6-.4 8.5 1" />
@@ -865,18 +739,19 @@
             <path d="M8.2 15.4c1.9-.5 3.7-.2 5.2.7" />
           </svg>
         </a>
-        <a href="https://mx3.ch/ceramicdoves" aria-label="Bandcamp">
+        <a href="#" aria-label="Bandcamp">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">
             <rect x="3" y="6" width="18" height="12" rx="1" />
             <path d="M9 9l-3 6h3l3-6z" fill="currentColor" stroke="none" />
           </svg>
         </a>
-        <a href="https://www.tiktok.com/@ceramicdoves" aria-label="TikTok">
-          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
-            <path d="M16.5 3c.3 2.1 1.5 3.6 3.5 3.9v2.4c-1.2.1-2.4-.2-3.5-.8v5.7c0 3.2-2.4 5.3-5.2 5.3-2.7 0-4.8-1.9-4.8-4.5 0-2.7 2.2-4.6 5-4.4v2.5c-.4-.1-.8-.2-1.2-.1-1 .1-1.7.8-1.7 1.9 0 1.2.9 2 2 2 1.2 0 2.1-.9 2.1-2.4V3h2.8z" />
+        <a href="#" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="6" width="18" height="12" rx="3" />
+            <path d="M11 9.5l4 2.5-4 2.5z" fill="currentColor" stroke="none" />
           </svg>
         </a>
-        <a href="mailto:ceramicdoves@gmail.com" aria-label="Email">
+        <a href="mailto:hello@ceramicdoves.com" aria-label="Email">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="3" y="5" width="18" height="14" rx="2" />
             <path d="M4 7l8 6 8-6" />
