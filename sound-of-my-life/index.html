@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sound of My Life — Ceramic Doves</title>
+<link rel="icon" type="image/png" href="/logo/dove_transparent.png" />
+
+<!--
+  ============================================================
+  SINGLE PAGE  ·  "SOUND OF MY LIFE"  ·  CERAMIC DOVES
+  ------------------------------------------------------------
+  This page lives at  ceramicdoves.ch/sound-of-my-life/
+  so every asset path starts with "/" (root of the repo).
+
+  Everything you need to customise is marked with:   ✎ EDIT
+
+  Quick swaps:
+    • Release date / genre ........ search:  ✎ EDIT · RELEASE
+    • Hero background images ...... search:  ✎ EDIT · HERO IMAGES
+    • Story text .................. search:  ✎ EDIT · STORY
+    • Song file + stream links .... search:  ✎ EDIT · STREAM
+    • Cover art files ............. search:  ✎ EDIT · COVERART
+    • YouTube video ............... search:  ✎ EDIT · VIDEO
+    • Credits ..................... search:  ✎ EDIT · CREDITS
+    • Show dates .................. search:  ✎ EDIT · SHOWS
+    • EP title / text ............. search:  ✎ EDIT · EP
+    • Colours / fonts ............. search:  :root  (top of CSS)
+  ============================================================
+-->
+
+<!-- Fonts: Anton (display) + Oswald (condensed) + Inter (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+
+
+<style>
+  /* ============================================================
+     1. DESIGN TOKENS  —  change the whole look from here
+     ============================================================ */
+  :root {
+    /* Colours — Sound of My Life palette (deep night-sky navy) */
+    --ink:        #000000;   /* page background (black)           */
+    --ink-raised: #131a2c;   /* lifted panels (dark navy)         */
+    --panel:      #2b395c;   /* blue — borders, buttons, tiles    */
+    --white:      #dfdfdf;   /* soft light grey for text & logo   */
+    --muted:      #8d97b3;   /* secondary / caption text          */
+    --line:       rgba(43,57,92,0.55);   /* blue hairlines       */ /* hairline dividers    */
+    --accent:     #a9bcf0;   /* moonlight blue — the one loud note*/
+
+    /* Type */
+    --font-display: "Anton", sans-serif;    /* heavy condensed — big impact  */
+    --font-cond:    "Oswald", sans-serif;   /* condensed — nav, labels, dates */
+    --font-body:    "Inter", sans-serif;    /* clean body copy               */
+
+    /* Layout */
+    --container: 1120px;
+    --pad-x:     clamp(1.25rem, 5vw, 4rem);
+    --section-y: clamp(3rem, 7vw, 5rem);
+  }
+
+  /* ============================================================
+     2. BASE / RESET
+     ============================================================ */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* Visible keyboard focus everywhere */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  /* Centered content column used by every section */
+  .container {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--pad-x);
+  }
+
+  /* Small uppercase label that heads each section ("eyebrow") */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-cond);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  /* short accent tick before every eyebrow label */
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  /* ============================================================
+     3. TOP NAVIGATION  (fades in once you scroll past the hero)
+     ============================================================ */
+  .nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem var(--pad-x);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .nav.is-visible { opacity: 1; transform: translateY(0); }
+
+  .nav__logo {
+    font-family: var(--font-cond);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 1.15rem;
+  }
+  /* when the nav logo is an image, keep it small to fit the bar */
+  .nav__logo img { height: 1.9rem; width: auto; display: block; }
+
+  .nav__links {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2.25rem);
+    font-family: var(--font-cond);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .nav__links a { color: var(--muted); transition: color 0.25s ease; }
+  .nav__links a:hover { color: var(--white); }
+
+  /* ============================================================
+     4. HERO  —  full-screen darkened slideshow + release title
+     ============================================================ */
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 34rem;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  /* Each slide is a stacked layer that we crossfade with opacity.
+     ✎ EDIT · HERO IMAGES
+     Replace each 'background-image' below with your own photo.
+     Keep the dark gradient in front of it (the first gradient) so the
+     light title stays readable. */
+  .hero__slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+  .hero__slide.is-active { opacity: 1; }
+
+  .hero__slide--1 {
+    background-image:
+      linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.88)),
+      url('/images/soml_cover.jpg');
+  }
+  .hero__slide--2 {
+    background-image:
+      linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.88)),
+      url('/images/soml_band.jpg');
+  }
+  .hero__slide--3 {
+    background-image:
+      linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.88)),
+      url('/images/blue_clap.jpg');
+  }
+
+
+  /* Filmic vignette + grain sit on top of the slides for atmosphere */
+  .hero__vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(130% 90% at 50% 28%, rgba(169,188,240,0.14) 0%, transparent 45%),
+      radial-gradient(120% 80% at 50% 45%, transparent 52%, rgba(0,0,0,0.72) 100%);
+    pointer-events: none;
+  }
+  .hero__grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.09;
+    pointer-events: none;
+    /* Tiny SVG noise texture encoded inline */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .hero__content { position: relative; z-index: 2; padding-inline: var(--pad-x); }
+
+  /* small "band name" line above the big release title */
+  .hero__kicker {
+    font-family: var(--font-cond);
+    font-weight: 600;
+    color: var(--muted);
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  /* ✎ EDIT · RELEASE  — this big centred title is the release name */
+  .hero__title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    font-size: clamp(2.6rem, 9vw, 6.5rem);
+    line-height: 1;
+    /* subtle depth so the title holds up over busy photos */
+    text-shadow: 0 0.06em 0.4em rgba(0,0,0,0.55);
+  }
+  .hero__tagline {
+    margin-top: 1.5rem;
+    font-family: var(--font-cond);
+    font-weight: 500;
+    color: var(--muted);
+    font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .hero__tagline strong { color: var(--white); font-weight: 600; }
+
+  /* Scroll cue at the bottom of the hero */
+  .hero__scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+  .hero__scroll span { width: 1px; height: 2.5rem; background: var(--muted); animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 0.25; transform: scaleY(0.6); } 50% { opacity: 1; transform: scaleY(1); } }
+
+  /* ============================================================
+     5. SHARED SECTION RHYTHM
+     ============================================================ */
+  section { padding-block: var(--section-y); }
+
+  .section-head { margin-bottom: 2rem; }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    line-height: 0.95;
+    margin-top: 0.75rem;
+  }
+
+  /* ============================================================
+     6. STORY  —  text on the left, cover art on the right
+     ============================================================ */
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+  .about__body p { color: var(--muted); margin-top: 1.1rem; max-width: 46ch; }
+  .about__body p:first-child { margin-top: 0; }
+  .about__body p.lead { color: var(--white); font-size: 1rem; }
+
+  /* Small meta row under the description (release / genre / length) */
+  .about__meta {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 2.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .about__meta dt { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .about__meta dd { font-family: var(--font-cond); font-weight: 600; font-size: 1.05rem; margin-top: 0.35rem; }
+
+  /* ✎ EDIT · COVERART (square) — the 1:1 artwork next to the story */
+  .about__photo {
+    aspect-ratio: 1 / 1;
+    border-radius: 2px;
+    background:
+      url('/images/soml_cover.jpg');
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+  }
+
+  /* ============================================================
+     7. LISTEN  —  custom minimal audio player with a waveform
+     ============================================================ */
+  .listen { text-align: center; }
+  .listen .section-head { margin-bottom: 2.5rem; }
+
+  .player {
+    max-width: 640px;
+    margin-inline: auto;
+    background: var(--ink-raised);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: clamp(1.25rem, 4vw, 2rem);
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 1.75rem);
+    text-align: left;
+  }
+
+  /* Round play / pause button */
+  .player__toggle {
+    flex-shrink: 0;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--white);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+  .player__toggle:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.25); }
+  .player.is-playing .player__toggle { border-color: var(--accent); color: var(--accent); }
+  .player__toggle svg { width: 1.1rem; height: 1.1rem; }
+  .player__toggle .icon-pause { display: none; }
+  .player.is-playing .icon-play  { display: none; }
+  .player.is-playing .icon-pause { display: block; }
+
+  .player__main { flex: 1; min-width: 0; }
+  .player__track { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.02em; font-size: 1.4rem; }
+  .player__album { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.05em; margin-top: 0.1rem; }
+
+  /* Waveform: a row of thin bars. Bars up to the playhead take the
+     accent colour. Clicking anywhere on it seeks the track. */
+  .waveform {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 2.5rem;
+    margin-top: 0.85rem;
+    cursor: pointer;
+  }
+  .waveform__bar {
+    flex: 1;
+    background: rgba(255,255,255,0.18);
+    border-radius: 1px;
+    transition: background 0.15s ease;
+  }
+  .waveform__bar.is-played { background: var(--accent); }
+
+  .player__time {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.03em;
+  }
+
+  /* Streaming platform buttons under the player */
+  .stream {
+    max-width: 640px;
+    margin: 2rem auto 0;
+  }
+  .stream__label {
+    font-family: var(--font-cond);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .stream__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .stream__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1.4rem;
+    border: 1px solid var(--line);
+    font-family: var(--font-cond);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .stream__links a:hover { border-color: var(--panel); background: var(--panel); color: var(--white); }
+  .stream__links svg { width: 1.1rem; height: 1.1rem; }
+
+  /* ============================================================
+     7b. COVER ART  —  landscape + square artwork, downloadable
+     ============================================================ */
+  .art__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+  .art__item {
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--ink-raised);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+  }
+  .art__item img { width: 100%; height: 100%; object-fit: cover; }
+  .art__item--wide   { aspect-ratio: 2 / 1; }
+  .art__item--square { aspect-ratio: 1 / 1; }
+  /* caption bar over the bottom edge */
+  .art__caption {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0));
+    font-family: var(--font-cond);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .art__caption span { color: var(--muted); }
+  .art__caption a {
+    padding: 0.35rem 0.9rem;
+    border: 1px solid var(--panel);
+    color: var(--white);
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .art__caption a:hover { background: var(--panel); color: var(--white); }
+
+  /* ============================================================
+     7c. VIDEO  —  responsive YouTube embed
+     ============================================================ */
+  .video__frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--ink-raised);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+  }
+  .video__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video__caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+    font-family: var(--font-cond);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .video__caption strong { color: var(--white); font-weight: 600; }
+
+  /* ============================================================
+     7d. CREDITS  —  who did what
+     ============================================================ */
+  .credits__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0 2rem;
+    border-top: 1px solid var(--line);
+  }
+  .credits__grid div {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .credits__grid dt { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .credits__grid dd { font-family: var(--font-cond); font-weight: 600; font-size: 0.95rem; margin-top: 0.25rem; }
+
+  /* ============================================================
+     7e. BIO  —  one centered text column
+     ============================================================ */
+  .bio__inner { max-width: 44rem; }
+  .bio__body p { color: var(--muted); margin-top: 1.1rem; }
+  .bio__body p:first-of-type { margin-top: 0; }
+  .bio__body p.lead { color: var(--white); font-size: 1rem; }
+
+  /* ============================================================
+     8. SHOWS  —  two plain lists side by side (upcoming | past)
+     ============================================================ */
+  .shows__cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .shows__sub {
+    font-family: var(--font-cond);
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .shows__list { list-style: none; }
+  .shows__list li {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--white);
+  }
+  .shows__list time { color: var(--muted); font-variant-numeric: tabular-nums; margin-right: 0.35rem; }
+  /* past shows: a touch smaller and quieter */
+  .shows__list--past li { font-size: 0.82rem; color: var(--muted); }
+  .shows__list--past time { opacity: 0.7; }
+
+  /* ============================================================
+     8b. UPCOMING EP  —  teaser block
+     ============================================================ */
+  .ep {
+    background: var(--ink-raised);
+    border-block: 1px solid var(--line);
+  }
+  .ep__grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+  .ep__title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    line-height: 0.95;
+    margin-top: 0.75rem;
+  }
+  .ep__when {
+    font-family: var(--font-cond);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 1rem;
+  }
+  .ep__body p { color: var(--muted); margin-top: 1.1rem; max-width: 52ch; }
+  .ep__body p:first-child { margin-top: 0; color: var(--white); }
+
+  /* ============================================================
+     9. FOOTER  —  minimalistic social + mail icons
+     ============================================================ */
+  .footer {
+    text-align: center;
+    padding-block: clamp(4rem, 9vw, 6rem);
+    border-top: 1px solid var(--line);
+  }
+  .footer__logo {
+  width: min(70vw, 380px);   /* how big the logo appears (smaller than the hero) */
+  height: auto;              /* keeps the proportions correct */
+  margin-inline: auto;       /* keeps it centred in the footer */
+  }
+
+  .footer__tagline { font-family: var(--font-cond); font-weight: 500; color: var(--muted); font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 0.9rem; }
+
+  .socials {
+    display: flex;
+    justify-content: center;
+    gap: 1.75rem;
+    margin-top: 2.5rem;
+  }
+  .socials a {
+    color: var(--muted);
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+  .socials a:hover { color: var(--white); transform: translateY(-2px); }
+  .socials svg { width: 1.4rem; height: 1.4rem; display: block; }
+
+  .footer__copy { color: var(--muted); font-size: 0.72rem; margin-top: 2.75rem; letter-spacing: 0.05em; }
+
+  /* Booking call-to-action ("Book us") — its own section above the footer */
+  .booking { text-align: center; }
+  .booking .eyebrow { justify-content: center; }
+  .booking__title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    line-height: 0.95;
+    margin-top: 1rem;
+  }
+  .booking__email {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-family: var(--font-cond);
+    font-weight: 600;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    letter-spacing: 0.04em;
+    padding: 0.75rem 1.75rem;
+    border: 1px solid var(--panel);
+    color: var(--white);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .booking__email:hover { background: var(--panel); color: var(--white); }
+
+  /* ============================================================
+     10. SCROLL-REVEAL  (elements fade up as they enter the view)
+     ============================================================ */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.is-in { opacity: 1; transform: none; }
+
+  /* ============================================================
+     11. RESPONSIVE
+     ============================================================ */
+  @media (max-width: 760px) {
+    .nav__links { gap: 1rem; }
+    .about__grid { grid-template-columns: 1fr; }
+    .about__photo { order: -1; max-width: 22rem; margin-inline: auto; } /* artwork above text on mobile */
+    .player { flex-direction: column; align-items: stretch; text-align: center; }
+    .player__toggle { margin-inline: auto; }
+    .waveform { justify-content: center; }
+    .player__time { text-align: center; }
+    .art__grid { grid-template-columns: 1fr; }
+    .credits__grid { grid-template-columns: 1fr 1fr; }
+    .shows__cols { grid-template-columns: 1fr; }
+    .ep__grid { grid-template-columns: 1fr; }
+  }
+
+  /* ============================================================
+     12. REDUCED MOTION  (respect the user's OS preference)
+     ============================================================ */
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- ========== TOP NAV (appears after the hero) ========== -->
+  <nav class="nav" id="nav" aria-label="Primary">
+    <a class="nav__logo" href="/">
+      <img src="/logo/cd_logo.png" alt="Ceramic Doves" />
+    </a>
+    <div class="nav__links">
+      <a href="#story">Story</a>
+      <a href="#listen">Listen</a>
+      <a href="#video">Watch</a>
+      <a href="#shows">Shows</a>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <header class="hero" id="top">
+    <!-- Three crossfading slides. Add/remove slides freely (the JS loops
+         over whatever '.hero__slide' elements it finds). -->
+    <div class="hero__slide hero__slide--1 is-active"></div>
+    <div class="hero__slide hero__slide--2"></div>
+    <div class="hero__slide hero__slide--3"></div>
+
+    <div class="hero__vignette"></div>
+    <div class="hero__grain"></div>
+
+    <div class="hero__content">
+      <!-- ✎ EDIT · RELEASE -->
+      <p class="hero__kicker">Ceramic Doves · About the release</p>
+      <h1 class="hero__title">Sound of My Life</h1>
+      <p class="hero__tagline"><strong>28.10.2026</strong> · Pop-Rock, Piano driven, Dance-Rock</p>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">
+      <span></span>
+      Scroll
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ========== STORY ========== -->
+    <section id="story" class="about">
+      <div class="container about__grid">
+        <div class="about__body reveal">
+          <p class="eyebrow">Story</p>
+          <div class="section-head" style="margin-bottom: 1.5rem;">
+            <h2>Sound of My Life</h2>
+          </div>
+
+          <!-- ✎ EDIT · STORY -->
+          <p class="lead">
+            A melodic tune to sing and dance along to. A song for young spirits
+            on the path to self-discovery.
+          </p>
+          <p>
+            "Sound of My Life" has been an important part of Ceramic Doves' lead singer Dana.
+            She wrote the piano melody as a child and is sharing it now with the world,
+            together with the life lessons she has learned since childhood. These lessons
+            have accompanied her ever since — much like this lovely piano melody.
+          </p>
+
+          <dl class="about__meta">
+            <div>
+              <dt>Release</dt>
+              <dd>28.10.2026</dd>
+            </div>
+            <div>
+              <dt>Genre</dt>
+              <dd>Pop-Rock</dd>
+            </div>
+            <div>
+              <dt>Length</dt>
+              <dd>3:53</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- ✎ EDIT · COVERART (square artwork next to the story) -->
+        <div class="about__photo reveal" role="img" aria-label="Sound of My Life — official artwork"></div>
+      </div>
+    </section>
+
+    <!-- ========== LISTEN ========== -->
+    <section id="listen" class="listen">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Listen</p>
+          <h2>Stream Track</h2>
+        </div>
+
+        <!-- Custom audio player. The real <audio> element is hidden; the
+             styled controls above drive it. -->
+        <div class="player reveal" id="player">
+          <button class="player__toggle" id="playToggle" aria-label="Play song">
+            <!-- Play triangle -->
+            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            <!-- Pause bars -->
+            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
+            </svg>
+          </button>
+
+          <div class="player__main">
+            <!-- ✎ EDIT · STREAM (track + year) -->
+            <div class="player__track">Sound of My Life</div>
+            <div class="player__album">Ceramic Doves · 2026</div>
+
+            <!-- Waveform bars are generated by JavaScript below -->
+            <div class="waveform" id="waveform" role="slider"
+                 aria-label="Seek within song" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+          </div>
+
+          <div class="player__time"><span id="current">0:00</span> / <span id="duration">0:00</span></div>
+
+          <!--
+            ✎ EDIT · STREAM
+            Point src at the audio file (root-relative path, because this page
+            lives in a subfolder).
+          -->
+              <audio id="audio" preload="metadata"
+                    src="/audio/sound_of_my_life.mp3"></audio>
+        </div>
+
+        <!-- ✎ EDIT · STREAM — platform links. Swap href="#" for the real
+             release links once they exist (or drop a button you don't need). -->
+        <div class="stream reveal">
+          <p class="stream__label">Stream it on your desired platform</p>
+          <div class="stream__links">
+            <a href="https://open.spotify.com/artist/0znhkYLZ7d6otsW91943i2" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M7.5 9.5c3-.8 6-.4 8.5 1" />
+                <path d="M7.8 12.6c2.4-.6 4.9-.3 6.9.9" />
+                <path d="M8.2 15.4c1.9-.5 3.7-.2 5.2.7" />
+              </svg>
+              Spotify
+            </a>
+            <a href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 18V6l10-2v12" />
+                <circle cx="6.5" cy="18" r="2.5" />
+                <circle cx="16.5" cy="16" r="2.5" />
+              </svg>
+              Apple Music
+            </a>
+            <a href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="6" width="18" height="12" rx="3" />
+                <path d="M10 9.5v5l4.5-2.5z" fill="currentColor" stroke="none" />
+              </svg>
+              YouTube
+            </a>
+            <a href="https://mx3.ch/ceramicdoves" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="6" width="18" height="12" rx="1" />
+                <path d="M9 9l-3 6h3l3-6z" fill="currentColor" stroke="none" />
+              </svg>
+              mx3
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== COVER ART ==========
+         ✎ EDIT · COVERART — the two artwork files. The "download" attribute
+         lets press download the full file with one click. -->
+    <section id="artwork" class="art">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Artwork</p>
+          <h2>Coverart</h2>
+        </div>
+
+        <div class="art__grid reveal">
+          <figure class="art__item art__item--wide">
+            <img src="/images/soml_landscape.png" alt="Sound of My Life — landscape artwork" />
+            <figcaption class="art__caption">
+              <span>Landscape artwork · 2:1</span>
+              <a href="/images/soml_landscape.png" download>Download</a>
+            </figcaption>
+          </figure>
+          <figure class="art__item art__item--square">
+            <img src="/images/soml_cover.jpg" alt="Sound of My Life — official artwork" />
+            <figcaption class="art__caption">
+              <span>Official artwork · 1:1</span>
+              <a href="/images/soml_cover.jpg" download>Download</a>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== VIDEO ==========
+         ✎ EDIT · VIDEO — replace VIDEO_ID in the iframe src with the
+         YouTube ID (the part after "v=" in the video URL). -->
+    <section id="video" class="video">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Youtube</p>
+          <h2>Videos</h2>
+        </div>
+
+        <div class="video__frame reveal">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/VIDEO_ID"
+            title="Ceramic Doves — Sound of My Life (Live in Moods)"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+        <div class="video__caption reveal">
+          <div><strong>Sound of My Life</strong> · Ceramic Doves</div>
+          <div>Live in Moods (CH)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CREDITS ========== -->
+    <section id="credits" class="credits">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Sound of My Life</p>
+          <h2>Credits</h2>
+        </div>
+
+        <!-- ✎ EDIT · CREDITS -->
+        <dl class="credits__grid reveal">
+          <div><dt>Performing artist</dt><dd>Ceramic Doves</dd></div>
+          <div><dt>Songwriters</dt><dd>Sara Dani, Ian Luskar</dd></div>
+          <div><dt>Producer &amp; engineer</dt><dd>Ian Luskar</dd></div>
+          <div><dt>Vocals</dt><dd>Dana</dd></div>
+          <div><dt>Guitar</dt><dd>Ian Carlson</dd></div>
+          <div><dt>Drums</dt><dd>Ian Margelisch</dd></div>
+          <div><dt>Piano</dt><dd>Lisa Gehrig</dd></div>
+          <div><dt>Bass</dt><dd>Gian Curiger</dd></div>
+          <div><dt>Backing vocals</dt><dd>Ian Carlson</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ========== BIO ========== -->
+    <section id="bio" class="bio">
+      <div class="container bio__inner">
+        <div class="bio__body reveal">
+          <p class="eyebrow">Bio</p>
+          <div class="section-head" style="margin-bottom: 1.5rem;">
+            <h2>Bio</h2>
+          </div>
+
+          <p class="lead">
+            The young Swiss rock band Ceramic Doves is making waves. Guitar-driven rock'n'roll with depth,
+            glamour, and a show that hits straight to the heart and the legs. «Young hearts rock hard» – and
+            that's exactly how they sound: loud, direct, and on a straight path to the world tour.
+          </p>
+          <p class="eyebrow" style="margin-top: 2rem;">Artist Bio</p>
+          <p>
+            Ceramic Doves is a rock band from the Zürcher Oberland. Founded in 2023, the band consists of
+            Dana (vocals), Ian Carlson (guitar, vocals), Lisa Gehrig (keyboard, vocals), Gian Curiger (bass)
+            and Ian Margelisch (drums). With their guitar-driven sound the band quickly built a growing live
+            presence and released their first EP in 2024. In their current lineup, Ceramic Doves took third
+            place at the Zurich emerging-talent competition Band-it in 2025.
+          </p>
+          <p>
+            That same year, the singles "Painting of My Love" and "Diane" were released, the latter recorded
+            at Powerplay Studios in Maur. Alongside this, the band played further concerts in regional clubs
+            and music bars. Behind the energetic stage show are songs that grapple with self-discovery,
+            relationships, and coming of age. Besides appearances at various Swiss festivals, 2026 brings the
+            band's first shows abroad, in Germany and Austria.
+          </p>
+          <p>
+            Ceramic Doves is a co-founder of the musicians' collective soundinme.ch from Uster, which supports
+            the local music scene through joint projects and events.
+          </p>
+
+          <dl class="about__meta">
+            <div>
+              <dt>Formed</dt>
+              <dd>2023</dd>
+            </div>
+            <div>
+              <dt>Based in</dt>
+              <dd>Uster</dd>
+            </div>
+            <div>
+              <dt>Members</dt>
+              <dd>Five</dd>
+            </div>
+          </dl>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== SHOWS ==========
+         ✎ EDIT · SHOWS — two plain lists, exactly like the press kit.
+         One <li> per show: date, then venue and city. -->
+    <section id="shows" class="shows">
+      <div class="container">
+        <div class="section-head reveal" style="text-align: center;">
+          <h2>Shows</h2>
+        </div>
+
+        <div class="shows__cols reveal">
+          <div>
+            <p class="shows__sub">Upcoming</p>
+            <ul class="shows__list">
+              <li><time>03. – 10.10.2026</time> DE/AT Tour</li>
+              <li><time>31.10.2026</time> Fast Love X Ceramic Doves, Feldkirch</li>
+              <li><time>28.11.2026</time> Polyball, ETH Zürich</li>
+              <li><time>16.01.2027</time> SoundInMe 2027</li>
+            </ul>
+          </div>
+          <div>
+            <p class="shows__sub">Past (Highlights)</p>
+            <ul class="shows__list shows__list--past">
+              <li><time>25.05.2025</time> Irchelbarfest, Zürich</li>
+              <li><time>09.08.2025</time> Band-It Finale, Winterthur</li>
+              <li><time>18.10.2025</time> Stage &amp; Steel, Zeiningen</li>
+              <li><time>25.10.2025</time> Powerplay Nights, Maur</li>
+              <li><time>21.11.2025</time> Konkret, Nänikon</li>
+              <li><time>21.03.2026</time> Battle of the Bands, Zürich</li>
+              <li><time>30.05.2026</time> Vorstadt Sounds Festival, Zürich</li>
+              <li><time>19.06.2026</time> Althörnli Openair, Bauma</li>
+              <li><time>03.07.2026</time> Fresh! Openair, Winterthur</li>
+              <li><time>25.07.2026</time> Klang am Hang, Zweidlen</li>
+              <li><time>05.09.2026</time> Openair am Greifensee, Greifensee</li>
+              <li><time>12.09.2026</time> Schwammenair, Zürich</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== UPCOMING EP ==========
+         ✎ EDIT · EP — swap "Albumtitel" for the real title when announced -->
+    <section id="ep" class="ep">
+      <div class="container ep__grid">
+        <div class="reveal">
+          <p class="eyebrow">Upcoming EP</p>
+          <div class="ep__title">“Albumtitel”</div>
+          <div class="ep__when">Scheduled for 2027</div>
+        </div>
+        <div class="ep__body reveal">
+          <p>
+            "Sound of My Life" is the fourth single of the second EP by Ceramic Doves.
+          </p>
+          <p>
+            This rock'n'roll release will contain five stage anthems from ballads to hard rock,
+            as well as one fan-favourite bluesy jam song.
+          </p>
+          <p>
+            The EP is set to release in 2027, with three of its songs being released prior as singles in 2026.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== BOOK US ==========
+         ✎ EDIT · BOOK US — swap the address in both the href and the text -->
+    <section id="booking" class="booking">
+      <div class="container reveal">
+        <div class="booking__title">Book us</div>
+        <a class="booking__email" href="mailto:ceramicdoves[ät]gmail[punkt]com">ceramicdoves[ät]gmail[punkt]com</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <!-- ✎ EDIT · BAND NAME -->
+      <div class="footer__logo">
+        <img src="/logo/cd_logo.png" alt="Ceramic Doves" class="footer__logo" />
+      </div>
+      <div class="footer__tagline">Young Hearts Rock Hard</div>
+
+      <!-- ✎ EDIT · LINKS — swap the href="#" values for your real URLs -->
+      <div class="socials">
+        <a href="https://www.instagram.com/ceramicdoves/" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+          </svg>
+        </a>
+        <a href="https://open.spotify.com/artist/0znhkYLZ7d6otsW91943i2" aria-label="Spotify">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M7.5 9.5c3-.8 6-.4 8.5 1" />
+            <path d="M7.8 12.6c2.4-.6 4.9-.3 6.9.9" />
+            <path d="M8.2 15.4c1.9-.5 3.7-.2 5.2.7" />
+          </svg>
+        </a>
+        <a href="https://mx3.ch/ceramicdoves" aria-label="Bandcamp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="6" width="18" height="12" rx="1" />
+            <path d="M9 9l-3 6h3l3-6z" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+        <a href="https://www.tiktok.com/@ceramicdoves" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+            <path d="M16.5 3c.3 2.1 1.5 3.6 3.5 3.9v2.4c-1.2.1-2.4-.2-3.5-.8v5.7c0 3.2-2.4 5.3-5.2 5.3-2.7 0-4.8-1.9-4.8-4.5 0-2.7 2.2-4.6 5-4.4v2.5c-.4-.1-.8-.2-1.2-.1-1 .1-1.7.8-1.7 1.9 0 1.2.9 2 2 2 1.2 0 2.1-.9 2.1-2.4V3h2.8z" />
+          </svg>
+        </a>
+        <a href="mailto:ceramicdoves[ät]gmail[punkt]com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="M4 7l8 6 8-6" />
+          </svg>
+        </a>
+      </div>
+
+      <p class="footer__copy">© 2026 Ceramic Doves · All rights reserved</p>
+    </div>
+  </footer>
+
+  <script>
+    /* ============================================================
+       JAVASCRIPT
+       1) Hero slideshow      2) Nav on scroll
+       3) Scroll reveals      4) Audio player + waveform
+       ============================================================ */
+
+    /* ---------- 1) Hero slideshow: crossfade every 5 seconds ---------- */
+    (function heroSlideshow() {
+      const slides = document.querySelectorAll(".hero__slide");
+      if (slides.length < 2) return;
+      let index = 0;
+      setInterval(() => {
+        slides[index].classList.remove("is-active");
+        index = (index + 1) % slides.length;
+        slides[index].classList.add("is-active");
+      }, 5000);
+    })();
+
+    /* ---------- 2) Show the top nav once the hero is scrolled past ---------- */
+    (function navOnScroll() {
+      const nav = document.getElementById("nav");
+      const onScroll = () => {
+        if (window.scrollY > window.innerHeight * 0.7) nav.classList.add("is-visible");
+        else nav.classList.remove("is-visible");
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    })();
+
+    /* ---------- 3) Reveal elements as they scroll into view ---------- */
+    (function scrollReveal() {
+      const items = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-in");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      items.forEach((item) => observer.observe(item));
+    })();
+
+    /* ---------- 4) Custom audio player with a clickable waveform ---------- */
+    (function audioPlayer() {
+      const audio     = document.getElementById("audio");
+      const player    = document.getElementById("player");
+      const toggle    = document.getElementById("playToggle");
+      const waveform  = document.getElementById("waveform");
+      const currentEl = document.getElementById("current");
+      const durationEl= document.getElementById("duration");
+
+      /* Build a fixed set of waveform bars with a natural-looking shape.
+         (Deterministic pattern so it looks the same every load.) */
+      const BAR_COUNT = 72;
+      const bars = [];
+      for (let i = 0; i < BAR_COUNT; i++) {
+        const bar = document.createElement("div");
+        bar.className = "waveform__bar";
+        // Combine two sine waves + a little variation for an organic height.
+        const shape = Math.sin(i * 0.35) * Math.sin(i * 0.08);
+        const height = 20 + Math.abs(shape) * 70 + (i % 3) * 4; // percent
+        bar.style.height = Math.min(100, height) + "%";
+        waveform.appendChild(bar);
+        bars.push(bar);
+      }
+
+      /* Format seconds as m:ss */
+      const fmt = (s) => {
+        if (isNaN(s)) return "0:00";
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60).toString().padStart(2, "0");
+        return `${m}:${sec}`;
+      };
+
+      /* Play / pause */
+      toggle.addEventListener("click", () => {
+        if (audio.paused) audio.play();
+        else audio.pause();
+      });
+      audio.addEventListener("play",  () => { player.classList.add("is-playing"); toggle.setAttribute("aria-label", "Pause song"); });
+      audio.addEventListener("pause", () => { player.classList.remove("is-playing"); toggle.setAttribute("aria-label", "Play song"); });
+
+      /* Show total duration once known */
+      audio.addEventListener("loadedmetadata", () => { durationEl.textContent = fmt(audio.duration); });
+
+      /* Update time + colour the played bars as the song progresses */
+      audio.addEventListener("timeupdate", () => {
+        const progress = audio.currentTime / audio.duration || 0;
+        currentEl.textContent = fmt(audio.currentTime);
+        const played = Math.round(progress * BAR_COUNT);
+        bars.forEach((bar, i) => bar.classList.toggle("is-played", i < played));
+        waveform.setAttribute("aria-valuenow", Math.round(progress * 100));
+      });
+
+      /* Reset the visuals when the track ends */
+      audio.addEventListener("ended", () => {
+        player.classList.remove("is-playing");
+        bars.forEach((bar) => bar.classList.remove("is-played"));
+      });
+
+      /* Click anywhere on the waveform to seek */
+      waveform.addEventListener("click", (e) => {
+        const rect = waveform.getBoundingClientRect();
+        const ratio = (e.clientX - rect.left) / rect.width;
+        if (audio.duration) audio.currentTime = ratio * audio.duration;
+      });
+    })();
+  </script>
+</body>
+</html>
