@@ -4,20 +4,21 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Sound of My Life — Ceramic Doves</title>
-<link rel="icon" type="image/png" href="/logo/dove_transparent.png" />
+<link rel="icon" type="image/png" href="../logo/dove_transparent.png" />
 
 <!--
   ============================================================
   SINGLE PAGE  ·  "SOUND OF MY LIFE"  ·  CERAMIC DOVES
   ------------------------------------------------------------
   This page lives at  ceramicdoves.ch/sound-of-my-life/
-  so every asset path starts with "/" (root of the repo).
+  so every asset path starts with "../" (one level up, the repo root).
+  That way it works both on the live site and when you open the file locally.
 
   Everything you need to customise is marked with:   ✎ EDIT
 
   Quick swaps:
     • Release date / genre ........ search:  ✎ EDIT · RELEASE
-    • Hero background images ...... search:  ✎ EDIT · HERO IMAGES
+    • Hero background image ....... search:  ✎ EDIT · HERO IMAGE
     • Story text .................. search:  ✎ EDIT · STORY
     • Song file + stream links .... search:  ✎ EDIT · STREAM
     • Cover art files ............. search:  ✎ EDIT · COVERART
@@ -169,37 +170,19 @@
     overflow: hidden;
   }
 
-  /* Each slide is a stacked layer that we crossfade with opacity.
-     ✎ EDIT · HERO IMAGES
-     Replace each 'background-image' below with your own photo.
-     Keep the dark gradient in front of it (the first gradient) so the
-     light title stays readable. */
-  .hero__slide {
+  /* ✎ EDIT · HERO IMAGE
+     One still image behind the title. Swap the url() below for another
+     photo. Keep the dark gradient in front of it so the title stays
+     readable. */
+  .hero__image {
     position: absolute;
     inset: 0;
     background-size: cover;
     background-position: center;
-    opacity: 0;
-    transition: opacity 2s ease-in-out;
-  }
-  .hero__slide.is-active { opacity: 1; }
-
-  .hero__slide--1 {
     background-image:
       linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.88)),
-      url('/images/soml_cover.jpg');
+      url('../images/soml_background.png');
   }
-  .hero__slide--2 {
-    background-image:
-      linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.88)),
-      url('/images/soml_band.jpg');
-  }
-  .hero__slide--3 {
-    background-image:
-      linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.88)),
-      url('/images/blue_clap.jpg');
-  }
-
 
   /* Filmic vignette + grain sit on top of the slides for atmosphere */
   .hero__vignette {
@@ -317,7 +300,7 @@
     aspect-ratio: 1 / 1;
     border-radius: 2px;
     background:
-      url('/images/soml_cover.jpg');
+      url('../images/soml_cover.jpg');
     background-size: cover;
     background-position: center;
     box-shadow: 0 30px 60px rgba(0,0,0,0.5);
@@ -681,8 +664,8 @@
 
   <!-- ========== TOP NAV (appears after the hero) ========== -->
   <nav class="nav" id="nav" aria-label="Primary">
-    <a class="nav__logo" href="/">
-      <img src="/logo/cd_logo.png" alt="Ceramic Doves" />
+    <a class="nav__logo" href="../">
+      <img src="../logo/cd_logo.png" alt="Ceramic Doves" />
     </a>
     <div class="nav__links">
       <a href="#story">Story</a>
@@ -694,11 +677,7 @@
 
   <!-- ========== HERO ========== -->
   <header class="hero" id="top">
-    <!-- Three crossfading slides. Add/remove slides freely (the JS loops
-         over whatever '.hero__slide' elements it finds). -->
-    <div class="hero__slide hero__slide--1 is-active"></div>
-    <div class="hero__slide hero__slide--2"></div>
-    <div class="hero__slide hero__slide--3"></div>
+    <div class="hero__image"></div>
 
     <div class="hero__vignette"></div>
     <div class="hero__grain"></div>
@@ -800,7 +779,7 @@
             lives in a subfolder).
           -->
               <audio id="audio" preload="metadata"
-                    src="/audio/sound_of_my_life.mp3"></audio>
+                    src="../audio/sound_of_my_life.mp3"></audio>
         </div>
 
         <!-- ✎ EDIT · STREAM — platform links. Swap href="#" for the real
@@ -856,17 +835,17 @@
 
         <div class="art__grid reveal">
           <figure class="art__item art__item--wide">
-            <img src="/images/soml_landscape.png" alt="Sound of My Life — landscape artwork" />
+            <img src="../images/soml_landscape.png" alt="Sound of My Life — landscape artwork" />
             <figcaption class="art__caption">
               <span>Landscape artwork · 2:1</span>
-              <a href="/images/soml_landscape.png" download>Download</a>
+              <a href="../images/soml_landscape.png" download>Download</a>
             </figcaption>
           </figure>
           <figure class="art__item art__item--square">
-            <img src="/images/soml_cover.jpg" alt="Sound of My Life — official artwork" />
+            <img src="../images/soml_cover.jpg" alt="Sound of My Life — official artwork" />
             <figcaption class="art__caption">
               <span>Official artwork · 1:1</span>
-              <a href="/images/soml_cover.jpg" download>Download</a>
+              <a href="../images/soml_cover.jpg" download>Download</a>
             </figcaption>
           </figure>
         </div>
@@ -1054,7 +1033,7 @@
     <div class="container">
       <!-- ✎ EDIT · BAND NAME -->
       <div class="footer__logo">
-        <img src="/logo/cd_logo.png" alt="Ceramic Doves" class="footer__logo" />
+        <img src="../logo/cd_logo.png" alt="Ceramic Doves" class="footer__logo" />
       </div>
       <div class="footer__tagline">Young Hearts Rock Hard</div>
 
@@ -1101,23 +1080,11 @@
   <script>
     /* ============================================================
        JAVASCRIPT
-       1) Hero slideshow      2) Nav on scroll
-       3) Scroll reveals      4) Audio player + waveform
+       1) Nav on scroll       2) Scroll reveals
+       3) Audio player + waveform
        ============================================================ */
 
-    /* ---------- 1) Hero slideshow: crossfade every 5 seconds ---------- */
-    (function heroSlideshow() {
-      const slides = document.querySelectorAll(".hero__slide");
-      if (slides.length < 2) return;
-      let index = 0;
-      setInterval(() => {
-        slides[index].classList.remove("is-active");
-        index = (index + 1) % slides.length;
-        slides[index].classList.add("is-active");
-      }, 5000);
-    })();
-
-    /* ---------- 2) Show the top nav once the hero is scrolled past ---------- */
+    /* ---------- 1) Show the top nav once the hero is scrolled past ---------- */
     (function navOnScroll() {
       const nav = document.getElementById("nav");
       const onScroll = () => {
@@ -1128,7 +1095,7 @@
       onScroll();
     })();
 
-    /* ---------- 3) Reveal elements as they scroll into view ---------- */
+    /* ---------- 2) Reveal elements as they scroll into view ---------- */
     (function scrollReveal() {
       const items = document.querySelectorAll(".reveal");
       const observer = new IntersectionObserver((entries) => {
@@ -1142,7 +1109,7 @@
       items.forEach((item) => observer.observe(item));
     })();
 
-    /* ---------- 4) Custom audio player with a clickable waveform ---------- */
+    /* ---------- 3) Custom audio player with a clickable waveform ---------- */
     (function audioPlayer() {
       const audio     = document.getElementById("audio");
       const player    = document.getElementById("player");
