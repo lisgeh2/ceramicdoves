@@ -26,14 +26,15 @@
     • Credits ..................... search:  ✎ EDIT · CREDITS
     • Show dates .................. search:  ✎ EDIT · SHOWS
     • EP title / text ............. search:  ✎ EDIT · EP
+    • Hero title font ............. search:  --font-hero
     • Colours / fonts ............. search:  :root  (top of CSS)
   ============================================================
 -->
 
-<!-- Fonts: Anton (display) + Oswald (condensed) + Inter (body) -->
+<!-- Fonts: Bricolage Grotesque (hero title) + Anton (headings) + Oswald (labels) + Inter (body) -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
 
 
 <style>
@@ -51,6 +52,7 @@
     --accent:     #a9bcf0;   /* moonlight blue — the one loud note*/
 
     /* Type */
+    --font-hero:    "Bricolage Grotesque", sans-serif; /* hero title */
     --font-display: "Anton", sans-serif;    /* heavy condensed — big impact  */
     --font-cond:    "Oswald", sans-serif;   /* condensed — nav, labels, dates */
     --font-body:    "Inter", sans-serif;    /* clean body copy               */
@@ -181,7 +183,7 @@
     background-position: center;
     background-image:
       linear-gradient(to bottom, rgba(0,0,0,0.45), rgba(0,0,0,0.88)),
-      url('../images/soml_background.png');
+      url('../images/soml_cover.jpg');
   }
 
   /* Filmic vignette + grain sit on top of the slides for atmosphere */
@@ -216,12 +218,12 @@
   }
   /* ✎ EDIT · RELEASE  — this big centred title is the release name */
   .hero__title {
-    font-family: var(--font-display);
-    font-weight: 400;
+    font-family: var(--font-hero);
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.01em;
-    font-size: clamp(2.6rem, 9vw, 6.5rem);
-    line-height: 1;
+    letter-spacing: 0.02em;        /* ✎ raise for airier, lower for tighter */
+    font-size: clamp(2.2rem, 7.5vw, 5.5rem);
+    line-height: 1.05;
     /* subtle depth so the title holds up over busy photos */
     text-shadow: 0 0.06em 0.4em rgba(0,0,0,0.55);
   }
